@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Mesothelioma TNM System and Number Staging 3D interactive map</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+ *{box-sizing:border-box}
+ body{margin:0;background:#fff;color:#1a1a1a;font-family:Helvetica,Arial,sans-serif}
+ header{padding:18px 20px 10px;max-width:1400px;margin:0 auto}
+ h1{margin:0;font-size:24px;line-height:1.25}
+ .sub{color:#555;margin:6px 0 0;font-size:15px}
+ .main{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;padding:0 20px;max-width:1400px;margin:0 auto;align-items:start}
+ .panel{border:1px solid #e3e3e3;border-radius:10px;padding:10px;min-width:0}
+ .bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:6px}
+ button{font:600 13px Helvetica,Arial,sans-serif;padding:7px 12px;border:1px solid #bbb;border-radius:6px;background:#f6f6f6;cursor:pointer;color:#1a1a1a}
+ button:hover{background:#ececec}
+ .hint{color:#777;font-size:12.5px}
+ #wrap{position:relative}
+ canvas{display:block;width:100%;height:440px;cursor:grab;touch-action:none}
+ canvas:active{cursor:grabbing}
+ #tip{position:absolute;pointer-events:none;background:#1a1a1a;color:#fff;padding:7px 10px;border-radius:6px;font-size:13px;line-height:1.4;display:none;max-width:280px;z-index:2}
+ .legend{display:flex;gap:6px 14px;flex-wrap:wrap;font-size:13px;margin-top:6px}
+ .legend span{display:inline-flex;align-items:center;gap:6px}
+ .legend i{width:14px;height:14px;border-radius:3px;display:inline-block}
+ #anat{width:100%;height:auto;display:block}
+ #cap{font-size:13.5px;line-height:1.5;color:#333;padding:8px 6px 4px;border-top:1px solid #eee;margin-top:4px}
+ #cap:empty{display:none}
+ .hl{transition:fill .15s,stroke .15s,stroke-width .15s,opacity .15s}
+ footer{padding:10px 20px 22px;font-size:12.5px;color:#777;max-width:1400px;margin:0 auto}
+ @media (max-width:900px){
+  header{padding:12px 12px 8px} h1{font-size:19px} .sub{font-size:14px}
+  .main{grid-template-columns:1fr;padding:0 10px;gap:10px}
+  .panel{padding:8px}
+  canvas{height:300px}
+  .hint{width:100%}
+  footer{padding:8px 12px 18px}
+ }
+</style></head><body>
+<header><h1>Mesothelioma TNM System and Number Staging 3D interactive map</h1>
+<p class="sub">Explore how pleural mesothelioma is staged and how it affects the body.</p></header>
+<div class="main">
+<section class="panel">
+ <div class="bar"><button id="sep">Stack layers</button><button id="reset">Reset view</button><span class="hint">Drag to rotate · hover or tap a block</span></div>
+ <div id="wrap"><canvas id="c"></canvas><div id="tip"></div></div>
+ <div class="legend" id="legend"></div>
+</section>
+<section class="panel" id="anatbox"><svg id="anat" xmlns="http://www.w3.org/2000/svg" viewBox="-40 0 840 870"><g transform="translate(80,24)">
+<path d="M 262 18 L 262 70 Q 255 95 200 103 Q 130 113 112 160 Q 100 210 102 300 L 105 650 L 495 650 L 498 300 Q 500 210 488 170 Q 470 113 400 103 Q 345 95 338 70 L 338 18" fill="#F6EBE3" stroke="#C9B3A6" stroke-width="1.5"/>
+<text x="150" y="18" style="font-family:Helvetica,Arial,sans-serif;font-size:12px;font-weight:700" fill="#777" text-anchor="middle">Patient's RIGHT</text>
+<text x="450" y="18" style="font-family:Helvetica,Arial,sans-serif;font-size:12px;font-weight:700" fill="#777" text-anchor="middle">Patient's LEFT</text>
+<rect class="hl" data-k="spine" data-m="fill" x="287" y="150" width="26" height="20" rx="4" fill="#E9E1D2" stroke="#BFB39C" stroke-dasharray="3 2" opacity="0.55"/>
+<rect class="hl" data-k="spine" data-m="fill" x="287" y="176" width="26" height="20" rx="4" fill="#E9E1D2" stroke="#BFB39C" stroke-dasharray="3 2" opacity="0.55"/>
+<rect class="hl" data-k="spine" data-m="fill" x="287" y="202" width="26" height="20" rx="4" fill="#E9E1D2" stroke="#BFB39C" stroke-dasharray="3 2" opacity="0.55"/>
+<rect class="hl" data-k="spine" data-m="fill" x="287" y="228" width="26" height="20" rx="4" fill="#E9E1D2" stroke="#BFB39C" stroke-dasharray="3 2" opacity="0.55"/>
+<rect class="hl" data-k="spine" data-m="fill" x="287" y="254" width="26" height="20" rx="4" fill="#E9E1D2" stroke="#BFB39C" stroke-dasharray="3 2" opacity="0.55"/>
+<rect class="hl" data-k="spine" data-m="fill" x="287" y="280" width="26" height="20" rx="4" fill="#E9E1D2" stroke="#BFB39C" stroke-dasharray="3 2" opacity="0.55"/>
+<rect class="hl" data-k="spine" data-m="fill" x="287" y="306" width="26" height="20" rx="4" fill="#E9E1D2" stroke="#BFB39C" stroke-dasharray="3 2" opacity="0.55"/>
+<rect class="hl" data-k="spine" data-m="fill" x="287" y="332" width="26" height="20" rx="4" fill="#E9E1D2" stroke="#BFB39C" stroke-dasharray="3 2" opacity="0.55"/>
+<rect class="hl" data-k="spine" data-m="fill" x="287" y="358" width="26" height="20" rx="4" fill="#E9E1D2" stroke="#BFB39C" stroke-dasharray="3 2" opacity="0.55"/>
+<rect class="hl" data-k="spine" data-m="fill" x="287" y="384" width="26" height="20" rx="4" fill="#E9E1D2" stroke="#BFB39C" stroke-dasharray="3 2" opacity="0.55"/>
+<rect class="hl" data-k="spine" data-m="fill" x="287" y="410" width="26" height="20" rx="4" fill="#E9E1D2" stroke="#BFB39C" stroke-dasharray="3 2" opacity="0.55"/>
+<rect class="hl" data-k="spine" data-m="fill" x="287" y="436" width="26" height="20" rx="4" fill="#E9E1D2" stroke="#BFB39C" stroke-dasharray="3 2" opacity="0.55"/>
+<rect class="hl" data-k="spine" data-m="fill" x="287" y="462" width="26" height="20" rx="4" fill="#E9E1D2" stroke="#BFB39C" stroke-dasharray="3 2" opacity="0.55"/>
+<rect class="hl" data-k="spine" data-m="fill" x="287" y="488" width="26" height="20" rx="4" fill="#E9E1D2" stroke="#BFB39C" stroke-dasharray="3 2" opacity="0.55"/>
+<rect class="hl" data-k="spine" data-m="fill" x="287" y="514" width="26" height="20" rx="4" fill="#E9E1D2" stroke="#BFB39C" stroke-dasharray="3 2" opacity="0.55"/>
+<circle cx="126" cy="150" r="17" fill="#EFE6D6" stroke="#BFAF8F"/>
+<circle class="hl" data-k="bone" data-m="fill" cx="474" cy="150" r="17" fill="#EFE6D6" stroke="#BFAF8F"/>
+<ellipse class="hl" data-k="ribsR" data-m="fill" cx="156" cy="175" rx="6.5" ry="10" fill="#EDE3CF" stroke="#BFAF8F"/>
+<ellipse cx="444" cy="180" rx="6.5" ry="10" fill="#EDE3CF" stroke="#BFAF8F"/>
+<ellipse class="hl" data-k="ribsR" data-m="fill" cx="139" cy="215" rx="6.5" ry="10" fill="#EDE3CF" stroke="#BFAF8F"/>
+<ellipse cx="461" cy="220" rx="6.5" ry="10" fill="#EDE3CF" stroke="#BFAF8F"/>
+<ellipse class="hl" data-k="ribsR" data-m="fill" cx="124" cy="260" rx="6.5" ry="10" fill="#EDE3CF" stroke="#BFAF8F"/>
+<ellipse cx="476" cy="265" rx="6.5" ry="10" fill="#EDE3CF" stroke="#BFAF8F"/>
+<ellipse class="hl" data-k="ribsR" data-m="fill" cx="116" cy="305" rx="6.5" ry="10" fill="#EDE3CF" stroke="#BFAF8F"/>
+<ellipse cx="484" cy="310" rx="6.5" ry="10" fill="#EDE3CF" stroke="#BFAF8F"/>
+<ellipse class="hl" data-k="ribsR" data-m="fill" cx="112" cy="350" rx="6.5" ry="10" fill="#EDE3CF" stroke="#BFAF8F"/>
+<ellipse cx="488" cy="355" rx="6.5" ry="10" fill="#EDE3CF" stroke="#BFAF8F"/>
+<ellipse class="hl" data-k="ribsR" data-m="fill" cx="109" cy="395" rx="6.5" ry="10" fill="#EDE3CF" stroke="#BFAF8F"/>
+<ellipse cx="491" cy="400" rx="6.5" ry="10" fill="#EDE3CF" stroke="#BFAF8F"/>
+<ellipse class="hl" data-k="ribsR" data-m="fill" cx="108" cy="440" rx="6.5" ry="10" fill="#EDE3CF" stroke="#BFAF8F"/>
+<ellipse cx="492" cy="445" rx="6.5" ry="10" fill="#EDE3CF" stroke="#BFAF8F"/>
+<path class="hl" data-k="cwDiffuse" data-m="stroke" d="M 192 132 C 152 142 120 256 113 470" stroke="none" stroke-width="14" fill="none" opacity="0.6" stroke-linecap="round"/>
+<ellipse class="hl" data-k="cwFocal" data-m="fill" cx="118" cy="283" rx="8" ry="18" fill="none" opacity="0.9"/>
+<path class="hl" data-k="liver" data-m="fill" d="M 114 508 C 130 472 170 463 205 466 C 240 471 262 493 300 501 C 330 503 355 494 380 496 C 396 522 382 548 340 562 C 270 590 170 610 112 600 Z" fill="#D7AE9C" stroke="#B58A78"/>
+<path class="hl" data-k="perit" data-m="stroke" d="M 110 512 C 128 476 170 466 205 469 C 240 474 262 496 300 504 C 340 503 362 493 410 486 C 446 483 476 495 490 520" stroke="#A08BB8" stroke-width="1.6" stroke-dasharray="5 3" fill="none"/>
+<path class="hl" data-k="diaR" data-m="stroke" d="M 108 500 C 125 462 170 450 205 455 C 240 460 262 482 300 490" stroke="#C98D7A" stroke-width="9" fill="none" stroke-linecap="round"/>
+<path d="M 300 490 C 340 488 360 476 405 470 C 445 466 478 480 492 510" stroke="#C98D7A" stroke-width="9" fill="none" stroke-linecap="round"/>
+<path class="hl" data-k="peri" data-m="stroke" d="M 268 365 C 262 330 310 322 335 338 C 360 355 362 415 350 448 C 335 478 290 482 274 455 C 262 430 272 398 268 365 Z" transform="translate(310 405) scale(1.09) translate(-310 -405)" fill="#F1DCD8" stroke="#B9858F" stroke-width="2.5"/>
+<path class="hl" data-k="heart" data-m="fill" d="M 268 365 C 262 330 310 322 335 338 C 360 355 362 415 350 448 C 335 478 290 482 274 455 C 262 430 272 398 268 365 Z" fill="#D9939B" stroke="#B46F79" stroke-width="1"/>
+<path class="hl" data-k="medFat" data-m="fill" d="M 262 300 Q 288 302 300 330 Q 286 352 264 354 Z" fill="none" opacity="0.9"/>
+<path class="hl" data-k="parR" data-m="stroke" data-w="22" d="M 205 112 C 165 122 135 260 128 470 Q 190 425 255 455 L 258 330 Q 248 300 262 285 Q 250 270 256 250 L 248 160 Q 232 110 205 112 Z" fill="none" stroke="#8E6BAE" stroke-width="18" stroke-linejoin="round"/>
+<path class="hl" data-k="parL" data-m="stroke" data-w="22" d="M 395 116 C 435 126 465 265 472 480 Q 412 440 368 470 Q 352 430 362 400 Q 338 370 345 330 Q 352 300 338 290 Q 350 275 344 255 L 352 165 Q 368 114 395 116 Z" fill="none" stroke="#8E6BAE" stroke-width="18" stroke-linejoin="round"/>
+<path d="M 205 112 C 165 122 135 260 128 470 Q 190 425 255 455 L 258 330 Q 248 300 262 285 Q 250 270 256 250 L 248 160 Q 232 110 205 112 Z" fill="none" stroke="#DCEBF7" stroke-width="13" stroke-linejoin="round"/>
+<path d="M 395 116 C 435 126 465 265 472 480 Q 412 440 368 470 Q 352 430 362 400 Q 338 370 345 330 Q 352 300 338 290 Q 350 275 344 255 L 352 165 Q 368 114 395 116 Z" fill="none" stroke="#DCEBF7" stroke-width="13" stroke-linejoin="round"/>
+<path class="hl" data-k="visR" data-m="stroke" data-w="4" d="M 205 112 C 165 122 135 260 128 470 Q 190 425 255 455 L 258 330 Q 248 300 262 285 Q 250 270 256 250 L 248 160 Q 232 110 205 112 Z" fill="#F4CDD3" stroke="#B07AA1" stroke-width="2"/>
+<path d="M 395 116 C 435 126 465 265 472 480 Q 412 440 368 470 Q 352 430 362 400 Q 338 370 345 330 Q 352 300 338 290 Q 350 275 344 255 L 352 165 Q 368 114 395 116 Z" fill="#F4CDD3" stroke="#B07AA1" stroke-width="2"/>
+<path d="M 296 122 Q 240 117 150 134" stroke="#E3D6BC" stroke-width="8" fill="none" stroke-linecap="round"/>
+<path d="M 304 122 Q 360 117 450 134" stroke="#E3D6BC" stroke-width="8" fill="none" stroke-linecap="round"/>
+<path class="hl" data-k="lungInv" data-m="fill" d="M 142 378 Q 162 362 175 384 Q 182 410 162 426 Q 142 422 140 400 Z" fill="none" opacity="0.9"/>
+<path d="M 291 18 L 309 18 L 309 226 Q 328 244 346 262 L 339 269 Q 318 250 300 240 Q 282 250 261 269 L 254 262 Q 272 244 291 226 Z" fill="#EBC9C3" stroke="#C59A93"/>
+<ellipse class="hl" data-k="n1" data-m="fill" cx="270" cy="292" rx="8" ry="6" fill="#A9BCD6" stroke="#6F86A8" stroke-width="1.2"/>
+<ellipse class="hl" data-k="n1" data-m="fill" cx="281" cy="212" rx="8" ry="6" fill="#A9BCD6" stroke="#6F86A8" stroke-width="1.2"/>
+<ellipse class="hl" data-k="n2c" data-m="fill" cx="334" cy="284" rx="8" ry="6" fill="#A9BCD6" stroke="#6F86A8" stroke-width="1.2"/>
+<ellipse class="hl" data-k="n2c" data-m="fill" cx="320" cy="212" rx="8" ry="6" fill="#A9BCD6" stroke="#6F86A8" stroke-width="1.2"/>
+<ellipse class="hl" data-k="n2s" data-m="fill" cx="244" cy="101" rx="8" ry="6" fill="#A9BCD6" stroke="#6F86A8" stroke-width="1.2"/>
+<ellipse class="hl" data-k="n2s" data-m="fill" cx="356" cy="101" rx="8" ry="6" fill="#A9BCD6" stroke="#6F86A8" stroke-width="1.2"/>
+<line x1="96" y1="66" x2="244" y2="101" stroke="#555" stroke-width="0.8"/>
+<circle cx="244" cy="101" r="1.8" fill="#333"/>
+<text x="90" y="70" text-anchor="end" style="font-family:Helvetica,Arial,sans-serif;font-size:14px;font-weight:600" fill="#222">Supraclavicular lymph nodes</text>
+<line x1="96" y1="191" x2="195" y2="205" stroke="#555" stroke-width="0.8"/>
+<circle cx="195" cy="205" r="1.8" fill="#333"/>
+<text x="90" y="195" text-anchor="end" style="font-family:Helvetica,Arial,sans-serif;font-size:14px;font-weight:600" fill="#222">Right lung</text>
+<line x1="96" y1="232" x2="273" y2="212" stroke="#555" stroke-width="0.8"/>
+<circle cx="273" cy="212" r="1.8" fill="#333"/>
+<line x1="96" y1="232" x2="262" y2="292" stroke="#555" stroke-width="0.8"/>
+<circle cx="262" cy="292" r="1.8" fill="#333"/>
+<text x="90" y="236" text-anchor="end" style="font-family:Helvetica,Arial,sans-serif;font-size:14px;font-weight:600" fill="#222">Same-side lymph nodes</text>
+<line x1="96" y1="272" x2="118" y2="262" stroke="#555" stroke-width="0.8"/>
+<circle cx="118" cy="262" r="1.8" fill="#333"/>
+<text x="90" y="276" text-anchor="end" style="font-family:Helvetica,Arial,sans-serif;font-size:14px;font-weight:600" fill="#222">Chest wall and ribs</text>
+<line x1="96" y1="316" x2="130" y2="318" stroke="#555" stroke-width="0.8"/>
+<circle cx="130" cy="318" r="1.8" fill="#333"/>
+<text x="90" y="320" text-anchor="end" style="font-family:Helvetica,Arial,sans-serif;font-size:14px;font-weight:600" fill="#222">Parietal pleura</text>
+<line x1="96" y1="348" x2="132" y2="352" stroke="#555" stroke-width="0.8"/>
+<circle cx="132" cy="352" r="1.8" fill="#333"/>
+<text x="90" y="352" text-anchor="end" style="font-family:Helvetica,Arial,sans-serif;font-size:14px;font-weight:600" fill="#222">Pleural cavity</text>
+<line x1="96" y1="380" x2="134" y2="384" stroke="#555" stroke-width="0.8"/>
+<circle cx="134" cy="384" r="1.8" fill="#333"/>
+<text x="90" y="384" text-anchor="end" style="font-family:Helvetica,Arial,sans-serif;font-size:14px;font-weight:600" fill="#222">Visceral pleura</text>
+<line x1="96" y1="458" x2="140" y2="466" stroke="#555" stroke-width="0.8"/>
+<circle cx="140" cy="466" r="1.8" fill="#333"/>
+<text x="90" y="462" text-anchor="end" style="font-family:Helvetica,Arial,sans-serif;font-size:14px;font-weight:600" fill="#222">Diaphragm</text>
+<line x1="96" y1="508" x2="124" y2="494" stroke="#555" stroke-width="0.8"/>
+<circle cx="124" cy="494" r="1.8" fill="#333"/>
+<text x="90" y="512" text-anchor="end" style="font-family:Helvetica,Arial,sans-serif;font-size:14px;font-weight:600" fill="#222">Peritoneum</text>
+<line x1="96" y1="564" x2="190" y2="560" stroke="#555" stroke-width="0.8"/>
+<circle cx="190" cy="560" r="1.8" fill="#333"/>
+<text x="90" y="568" text-anchor="end" style="font-family:Helvetica,Arial,sans-serif;font-size:14px;font-weight:600" fill="#222">Liver</text>
+<line x1="506" y1="146" x2="486" y2="152" stroke="#555" stroke-width="0.8"/>
+<circle cx="486" cy="152" r="1.8" fill="#333"/>
+<text x="512" y="150" text-anchor="start" style="font-family:Helvetica,Arial,sans-serif;font-size:14px;font-weight:600" fill="#222">Bone (humerus)</text>
+<line x1="506" y1="196" x2="420" y2="215" stroke="#555" stroke-width="0.8"/>
+<circle cx="420" cy="215" r="1.8" fill="#333"/>
+<text x="512" y="200" text-anchor="start" style="font-family:Helvetica,Arial,sans-serif;font-size:14px;font-weight:600" fill="#222">Left lung</text>
+<line x1="506" y1="236" x2="328" y2="212" stroke="#555" stroke-width="0.8"/>
+<circle cx="328" cy="212" r="1.8" fill="#333"/>
+<line x1="506" y1="236" x2="342" y2="284" stroke="#555" stroke-width="0.8"/>
+<circle cx="342" cy="284" r="1.8" fill="#333"/>
+<text x="512" y="240" text-anchor="start" style="font-family:Helvetica,Arial,sans-serif;font-size:14px;font-weight:600" fill="#222">Opposite-side lymph nodes</text>
+<line x1="506" y1="296" x2="471" y2="300" stroke="#555" stroke-width="0.8"/>
+<circle cx="471" cy="300" r="1.8" fill="#333"/>
+<text x="512" y="300" text-anchor="start" style="font-family:Helvetica,Arial,sans-serif;font-size:14px;font-weight:600" fill="#222">Opposite-side pleura</text>
+<line x1="506" y1="396" x2="355" y2="400" stroke="#555" stroke-width="0.8"/>
+<circle cx="355" cy="400" r="1.8" fill="#333"/>
+<text x="512" y="400" text-anchor="start" style="font-family:Helvetica,Arial,sans-serif;font-size:14px;font-weight:600" fill="#222">Heart and pericardium</text>
+<line x1="506" y1="346" x2="310" y2="322" stroke="#555" stroke-width="0.8"/>
+<circle cx="310" cy="322" r="1.8" fill="#333"/>
+<text x="512" y="350" text-anchor="start" style="font-family:Helvetica,Arial,sans-serif;font-size:14px;font-weight:600" fill="#222">Spine (behind)</text>
+<rect x="112" y="300" width="36" height="72" fill="none" stroke="#333" stroke-width="1.2" stroke-dasharray="4 3"/>
+<text x="0" y="664" style="font-family:Helvetica,Arial,sans-serif;font-size:14px;font-weight:700" fill="#222">Pleural layers, magnified (dashed box)</text>
+<rect x="0" y="700" width="160" height="80" fill="#E8B9AE"/>
+<ellipse cx="85" cy="740" rx="26" ry="22" fill="#EFE6D6" stroke="#BFAF8F"/>
+<rect class="hl" data-k="parR" data-m="fill" x="160" y="700" width="14" height="80" fill="#8E6BAE"/>
+<rect x="174" y="700" width="46" height="80" fill="#DCEBF7"/>
+<rect class="hl" data-k="visR" data-m="fill" x="220" y="700" width="12" height="80" fill="#B07AA1"/>
+<rect x="232" y="700" width="368" height="80" fill="#F4CDD3"/>
+<rect class="hl" data-k="lungInv" data-m="fill" x="232" y="722" width="60" height="36" rx="12" fill="none" opacity="0.9"/>
+<rect x="0" y="700" width="600" height="80" fill="none" stroke="#999"/>
+<line x1="80" y1="780" x2="80" y2="792" stroke="#555" stroke-width="0.8"/>
+<line x1="167" y1="780" x2="167" y2="814" stroke="#555" stroke-width="0.8"/>
+<line x1="226" y1="780" x2="226" y2="814" stroke="#555" stroke-width="0.8"/>
+<line x1="420" y1="780" x2="420" y2="792" stroke="#555" stroke-width="0.8"/>
+<line x1="197" y1="700" x2="197" y2="690" stroke="#555" stroke-width="0.8"/>
+<text x="80" y="808" text-anchor="middle" style="font-family:Helvetica,Arial,sans-serif;font-size:14px;font-weight:600" fill="#222">Chest wall (muscle, rib)</text>
+<text x="167" y="830" text-anchor="end" style="font-family:Helvetica,Arial,sans-serif;font-size:14px;font-weight:600" fill="#222">Parietal pleura</text>
+<text x="226" y="830" text-anchor="start" style="font-family:Helvetica,Arial,sans-serif;font-size:14px;font-weight:600" fill="#222">Visceral pleura</text>
+<text x="420" y="808" text-anchor="middle" style="font-family:Helvetica,Arial,sans-serif;font-size:14px;font-weight:600" fill="#222">Lung</text>
+<text x="197" y="684" text-anchor="middle" style="font-family:Helvetica,Arial,sans-serif;font-size:14px;font-weight:600" fill="#222">Pleural cavity (fluid)</text>
+</g></svg>
+ <div id="cap"></div>
+</section>
+</div>
+<footer>Source: Cancer Research UK patient staging information (IASLC 8th edition TNM).</footer>
+<script>
+const COL={'1A':'#2E9E5B','1B':'#169C9C','2':'#2F6FD6','3A':'#E8A317','3B':'#E8704F','4':'#C9302C'};
+const M0=[['1A','2','3B'],['1B','2','3B'],['1B','3A','3B'],['4','4','4']];
+const TD=['parietal pleura, one side','all pleura + diaphragm or lung','chest wall, mediastinum, pericardium; still resectable','peritoneum, organs, spine, heart, other side; not resectable'];
+const ND=['no nodes','same-side nodes','opposite side or above collarbone'];
+const MD=['no metastasis','metastasis (distant spread, e.g. bone or liver)'];
+const lg=document.getElementById('legend');
+for(const k of ['1A','1B','2','3A','3B','4']) lg.insertAdjacentHTML('beforeend',`<span><i style="background:${COL[k]}"></i>Stage ${k}</span>`);
+const blocks=[];
+for(let m=0;m<2;m++)for(let t=0;t<4;t++)for(let n=0;n<3;n++)blocks.push({t,n,m,s:m?'4':M0[t][n]});
+const cv=document.getElementById('c'),ctx=cv.getContext('2d'),tip=document.getElementById('tip');
+const HOME={yaw:1.0,pitch:0.42,zoom:1};
+let yaw=HOME.yaw,pitch=HOME.pitch,zoom=1,sep=2.7,sepTarget=2.7,W=0,H=0,hover=null,polys=[];
+function resize(){const r=cv.getBoundingClientRect(),d=window.devicePixelRatio||1;W=r.width;H=r.height;cv.width=W*d;cv.height=H*d;ctx.setTransform(d,0,0,d,0,0);draw();}
+function rgb(h){h=h.slice(1);return[0,2,4].map(i=>parseInt(h.substr(i,2),16));}
+function shade(h,f){return'rgb('+rgb(h).map(c=>Math.min(255,Math.round(c*f))).join(',')+')';}
+function rot(p){const[x,y,z]=p,cy=Math.cos(yaw),sy=Math.sin(yaw),cp=Math.cos(pitch),sp=Math.sin(pitch);
+ const x1=x*cy-z*sy,z1=x*sy+z*cy;return[x1,y*cp+z1*sp,-y*sp+z1*cp];}
+function proj(p){const r=rot(p),s=Math.min(W,H)/6.2*zoom,f=12/(12+r[2]);return[W/2-r[0]*s*f,H/2-8-r[1]*s*f,r[2]];}
+const LIGHT=(()=>{const v=[0.4,1,0.6],l=Math.hypot(...v);return v.map(a=>a/l)})();
+function center(b){return[b.n-1,(1-b.m)*sep-sep/2,b.t-1.5];}
+function draw(){
+ ctx.clearRect(0,0,W,H);polys=[];
+ const w=0.44,h=0.18;
+ // base plates
+ for(let m=0;m<2;m++){const y=(1-m)*sep-sep/2-h-0.03;const q=[[-1.6,y,-2.1],[1.6,y,-2.1],[1.6,y,2.1],[-1.6,y,2.1]].map(proj);
+  ctx.beginPath();q.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.closePath();ctx.fillStyle=m?'rgba(201,48,44,0.07)':'rgba(0,0,0,0.05)';ctx.fill();ctx.strokeStyle='#d0d0d0';ctx.stroke();}
+ const order=blocks.map(b=>({b,c:center(b)})).map(o=>({...o,d:rot(o.c)[2]})).sort((a,b)=>b.d-a.d);
+ for(const {b,c} of order){
+  const [cx,cy,cz]=c;const V=[];for(const dx of[-w,w])for(const dy of[-h,h])for(const dz of[-w,w])V.push([cx+dx,cy+dy,cz+dz]);
+  const P=V.map(proj);
+  const F=[[[0,1,3,2],[-1,0,0]],[[4,5,7,6],[1,0,0]],[[0,1,5,4],[0,-1,0]],[[2,3,7,6],[0,1,0]],[[0,2,6,4],[0,0,-1]],[[1,3,7,5],[0,0,1]]];
+  const isH=hover===b;
+  for(const [idx,nrm] of F){
+   const nr=rot(nrm);if(nr[2]>0.0001)continue; // facing away (camera looks toward +z)
+   const lam=0.62+0.45*Math.max(0,nrm[0]*LIGHT[0]+nrm[1]*LIGHT[1]+nrm[2]*LIGHT[2]);
+   const pts=idx.map(i=>P[i]);
+   ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.closePath();
+   ctx.fillStyle=shade(COL[b.s],isH?lam*1.18:lam);ctx.fill();ctx.strokeStyle=isH?'#1a1a1a':'rgba(255,255,255,0.9)';ctx.lineWidth=isH?2:1;ctx.stroke();
+   polys.push({b,pts});
+   if(nrm[1]!==0){const p=proj([cx,cy+nrm[1]*h,cz]);ctx.fillStyle='#fff';ctx.font='700 '+Math.round(15*zoom)+'px Helvetica,Arial,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(b.s,p[0],p[1]);}
+  }
+ }
+ // axis labels
+ ctx.fillStyle='#1a1a1a';ctx.font='700 14px Helvetica,Arial,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+ const yb=sep/2-0.25;
+ for(let t=0;t<4;t++){const p=proj([-2.05,yb,t-1.5]);ctx.fillText('T'+(t+1),p[0],p[1]);}
+ for(let n=0;n<3;n++){const p=proj([n-1,yb,-2.45]);ctx.fillText('N'+n,p[0],p[1]);}
+ for(let m=0;m<2;m++){const yy=(1-m)*sep-sep/2-0.2;const q=[[-1.6,yy,-2.1],[1.6,yy,-2.1],[1.6,yy,2.1],[-1.6,yy,2.1]].map(proj);
+ const minX=Math.min(...q.map(r=>r[0])),minY=Math.min(...q.map(r=>r[1])),maxY=Math.max(...q.map(r=>r[1]));
+ const lt=m?'M1 (metastasis)':'M0 (no metastasis)';ctx.font='700 15px Helvetica,Arial,sans-serif';ctx.textAlign='left';ctx.fillStyle=m?'#C9302C':'#1a1a1a';
+ const x=Math.max(6,minX),y=m?Math.min(H-8,maxY+22):Math.max(16,minY-(m?0:28));
+ ctx.lineJoin='round';ctx.lineWidth=4;ctx.strokeStyle='rgba(255,255,255,0.9)';ctx.strokeText(lt,x,y);ctx.fillText(lt,x,y);}
+}
+function hit(x,y){for(let i=polys.length-1;i>=0;i--){const q=polys[i].pts;let c=false;for(let a=0,b=q.length-1;a<q.length;b=a++){if(((q[a][1]>y)!=(q[b][1]>y))&&(x<(q[b][0]-q[a][0])*(y-q[a][1])/(q[b][1]-q[a][1])+q[a][0]))c=!c;}if(c)return polys[i].b;}return null;}
+let drag=null,lastDragDist=0,lastType='mouse';
+cv.addEventListener('pointerdown',e=>{lastType=e.pointerType;drag={x:e.clientX,y:e.clientY,yaw,pitch};cv.setPointerCapture(e.pointerId);tip.style.display='none';});
+cv.addEventListener('pointerup',e=>{lastDragDist=drag?Math.hypot(e.clientX-drag.x,e.clientY-drag.y):0;drag=null;});
+cv.addEventListener('pointermove',e=>{
+ if(drag){yaw=drag.yaw-(e.clientX-drag.x)*0.008;pitch=Math.max(-1.45,Math.min(1.45,drag.pitch+(e.clientY-drag.y)*0.008));draw();return;}
+ const r=cv.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top,b=hit(x,y);
+ if(b!==hover){hover=b;draw();if(!pinned)highlight(b);}
+ if(b)showTip(b,x,y);else tip.style.display='none';
+});
+cv.addEventListener('pointerleave',e=>{if(e.pointerType!=='mouse')return;hover=null;tip.style.display='none';draw();if(!pinned)highlight(null);});
+cv.addEventListener('wheel',e=>{e.preventDefault();zoom=Math.max(0.5,Math.min(2.5,zoom*Math.exp(-e.deltaY*0.001)));draw();},{passive:false});
+const sb=document.getElementById('sep');
+sb.onclick=()=>{sepTarget=sepTarget>1?0.42:2.7;sb.textContent=sepTarget>1?'Stack layers':'Separate layers';anim();};
+document.getElementById('reset').onclick=()=>{yaw=HOME.yaw;pitch=HOME.pitch;zoom=1;draw();};
+function anim(){const d=sepTarget-sep;if(Math.abs(d)<0.01){sep=sepTarget;draw();return;}sep+=d*0.18;draw();requestAnimationFrame(anim);}
+window.addEventListener('resize',resize);resize();
+const TSET=[['parR'],['parR','visR','diaR','lungInv']];
+TSET.push([...TSET[1],'cwFocal','medFat','peri']);
+TSET.push([...TSET[2],'cwDiffuse','ribsR','perit','heart','spine','parL']);
+const NSET=[[],['n1'],['n2c','n2s']];
+const MSET=[[],['liver','bone']];
+const DESC={parR:'parietal pleura (same side)',visR:'visceral pleura',diaR:'diaphragm muscle',lungInv:'lung tissue',
+ cwFocal:'one resectable focus of chest wall soft tissue',medFat:'mediastinal fat',peri:'pericardium (not through it)',
+ cwDiffuse:'diffuse chest wall spread',ribsR:'ribs',perit:'peritoneum (through the diaphragm)',heart:'heart muscle',spine:'spine',parL:'opposite-side pleura',
+ n1:'same-side hilar and mediastinal nodes',n2c:'opposite-side mediastinal nodes',n2s:'supraclavicular nodes (either side)',
+ liver:'liver',bone:'bone'};
+const HL=[...document.querySelectorAll('#anat .hl')];
+const cap=document.getElementById('cap');
+const CAP0='';
+let pinned=null;
+function showTip(b,x,y){tip.innerHTML=`<b>T${b.t+1} N${b.n} M${b.m} → stage ${b.s}</b><br>T${b.t+1}: ${TD[b.t]}<br>N${b.n}: ${ND[b.n]}<br>M${b.m}: ${MD[b.m]}`;
+ tip.style.display='block';const tw=tip.offsetWidth,th=tip.offsetHeight;
+ tip.style.left=Math.max(4,Math.min(x+14,W-tw-4))+'px';tip.style.top=(y+14+th>H?Math.max(4,y-th-10):y+14)+'px';}
+function highlight(b){
+ for(const el of HL){el.style.fill='';el.style.stroke='';el.style.strokeWidth='';el.style.opacity='';el.style.filter='';}
+ if(!b){cap.innerHTML=CAP0;return;}
+ const col=COL[b.s],T=TSET[b.t],N=NSET[b.n],M=MSET[b.m],keys=new Set([...T,...N,...M]);
+ for(const el of HL){if(!keys.has(el.dataset.k))continue;
+  if(el.dataset.m==='fill'){el.style.fill=col;el.style.opacity='1';el.style.stroke=shade(col,0.7);}
+  else{el.style.stroke=col;el.style.opacity='1';if(el.dataset.w)el.style.strokeWidth=el.dataset.w;else if(el.dataset.k==='perit')el.style.strokeWidth='4';else if(el.dataset.k==='diaR')el.style.strokeWidth='11';else if(el.dataset.k==='peri')el.style.strokeWidth='5';}
+  el.style.filter='drop-shadow(0 0 2px '+col+')';}
+ const list=k=>k.map(x=>DESC[x]).join(', ');
+ cap.innerHTML=`<b>T${b.t+1} N${b.n} M${b.m} → stage ${b.s}</b><br>`+
+  `<b>T${b.t+1}:</b> ${list(T)}<br><b>N${b.n}:</b> ${N.length?list(N):'no nodes involved'}<br><b>M${b.m}:</b> ${M.length?'distant spread, e.g. '+list(M):'no distant spread'}`;
+}
+cv.addEventListener('click',e=>{if(lastDragDist>6)return;const r=cv.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top,b=hit(x,y);pinned=(b&&b!==pinned)?b:null;
+ if(lastType!=='mouse'){hover=pinned;draw();if(pinned)showTip(pinned,x,y);else tip.style.display='none';}
+ highlight(pinned||(lastType==='mouse'?b:null));});
+highlight(null);
+
+</script></body></html>
